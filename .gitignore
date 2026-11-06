@@ -4,3 +4,4 @@ node_modules
 /dist/
 .env
 api/node_modules
+api/local.settings.json

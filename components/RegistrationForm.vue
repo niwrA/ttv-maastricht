@@ -64,7 +64,7 @@ async function submit(){
         </div>
         <div class="consents">
           <p><NuxtLink :to="path('privacy')" target="_blank" rel="noopener">{{t('Lees de volledige privacyverklaring (opent in nieuw tabblad)','Read the full privacy policy (opens in a new tab)')}} ↗</NuxtLink></p>
-          <label class="check"><input v-model="form.membershipAgreement" type="checkbox" required><span>{{t('Ik dien hiermee mijn aanvraag voor lidmaatschap in en bevestig dat ik kennis heb genomen van de contributie, het verenigingsjaar en de opzegtermijn hierboven. *','I am applying for membership and confirm that I have read the membership fees, club year and cancellation notice above. *')}}</span></label>
+          <label class="check"><input v-model="form.membershipAgreement" type="checkbox" required><span>{{t('Ik bevestig dat ik de lidmaatschapsinformatie hierboven heb gelezen en wil lid worden. *','I confirm that I have read the membership information above and wish to join. *')}}</span></label>
           <label class="check"><input v-model="form.privacyAcknowledged" type="checkbox" required><span>{{t('Ik heb de privacyverklaring gelezen. *','I have read the privacy policy. *')}}</span></label>
           <label v-if="minor" class="check"><input v-model="form.guardianConsent" type="checkbox" required><span>{{t('Ik ben de ouder/voogd en geef toestemming voor deze lidmaatschapsaanvraag. *','I am the parent/guardian and consent to this membership application. *')}}</span></label>
           <label class="check"><input v-model="form.photoConsent" type="checkbox"><span>{{t('Ik geef optioneel toestemming voor publicatie van herkenbaar beeldmateriaal.','I optionally consent to publication of identifiable photos or videos.')}}</span></label>

@@ -1,0 +1,9 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "ACS_CONNECTION_STRING": "PASTE_AZURE_COMMUNICATION_SERVICES_CONNECTION_STRING_HERE",
+    "ACS_SENDER": "DoNotReply@YOUR_VERIFIED_EMAIL_DOMAIN",
+    "REGISTRATION_RECIPIENT": "secretaristtvmaastricht@outlook.com"
+  }
+}

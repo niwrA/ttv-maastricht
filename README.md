@@ -12,6 +12,8 @@ Nuxt 3 static website with Dutch and English routes, club information, registrat
 ## Backend
 The Azure Function at `api/src/functions/register.js` sends a JSON attachment to the secretary using Azure Communication Services Email. Configure `ACS_CONNECTION_STRING`, `ACS_SENDER`, `REGISTRATION_RECIPIENT` in Azure application settings. The email is NOT operational until these settings and the email sender domain are configured. Do not place credentials in Nuxt public config.
 
+For local end-to-end development, install the API dependencies once with `npm install --prefix api`, copy `api/local.settings.json.example` to `api/local.settings.json`, and add valid Azure Communication Services values. Then run `npm run dev:swa` and open `http://localhost:4280`. The Static Web Apps CLI proxies the Nuxt dev server and the local Azure Functions API, so `/api/register` behaves like it does after deployment. `api/local.settings.json` is ignored by Git; never commit its secrets.
+
 ## Privacy / production checklist
 - Review legal wording in both policies with the board/privacy adviser; source documents contain claims about cookies and retention that may not match the new website or current law.
 - Review the optional gender/nationality fields for data minimisation; the original paper forms include them.

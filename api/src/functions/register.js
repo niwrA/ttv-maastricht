@@ -22,11 +22,62 @@ app.http('register', { methods: ['POST'], authLevel: 'anonymous', route: 'regist
   const { website, ...data } = input;
   const registration = { schemaVersion:2, registrationId:randomUUID(), submittedAt:new Date().toISOString(), ...data };
   const attachment = Buffer.from(JSON.stringify(registration,null,2),'utf8').toString('base64');
+  const english = data.locale === 'en';
+  const yes = english ? 'Yes' : 'Ja';
+  const no = english ? 'No' : 'Nee';
+  const gender = data.gender ? (english ? {male:'Male',female:'Female',other:'Other'}[data.gender] : {male:'Man',female:'Vrouw',other:'Anders'}[data.gender]) : '—';
+  const guardianConsent = age < 18 ? (data.guardianConsent ? yes : no) : (english ? 'Not applicable' : 'Niet van toepassing');
+  const labels = english ? {
+    received:'New TTV Maastricht membership application', id:'Application ID', submitted:'Submitted',
+    preferredName:'Preferred first name', initials:'Initials', lastName:'Family name', gender:'Gender',
+    birthDate:'Date of birth', nationality:'Nationality', address:'Address', postalCode:'Postal code',
+    city:'City', phone:'Phone', email:'Email', guardianName:'Parent/guardian name',
+    guardianEmail:'Parent/guardian email', membership:'Application and membership information confirmed',
+    privacy:'Privacy policy acknowledged', guardianConsent:'Parent/guardian consent', photoConsent:'Photo publication consent',
+    privacyVersion:'Privacy notice version', termsVersion:'Membership terms version', invoice:'The membership invoice will be sent manually.'
+  } : {
+    received:'Nieuwe lidmaatschapsaanvraag TTV Maastricht', id:'Aanvraagnummer', submitted:'Ontvangen op',
+    preferredName:'Roepnaam', initials:'Voorletters', lastName:'Achternaam', gender:'Geslacht',
+    birthDate:'Geboortedatum', nationality:'Nationaliteit', address:'Adres', postalCode:'Postcode',
+    city:'Woonplaats', phone:'Telefoon', email:'E-mailadres', guardianName:'Naam ouder/voogd',
+    guardianEmail:'E-mailadres ouder/voogd', membership:'Lidmaatschapsinformatie bevestigd',
+    privacy:'Privacyverklaring gelezen', guardianConsent:'Toestemming ouder/voogd', photoConsent:'Toestemming beeldmateriaal',
+    privacyVersion:'Versie privacyverklaring', termsVersion:'Versie lidmaatschapsvoorwaarden', invoice:'De contributiefactuur wordt handmatig verstuurd.'
+  };
+  const body = [
+    labels.received,
+    `${labels.id}: ${registration.registrationId}`,
+    `${labels.submitted}: ${registration.submittedAt}`,
+    '',
+    `${labels.preferredName}: ${data.firstName}`,
+    `${labels.initials}: ${data.initials || '—'}`,
+    `${labels.lastName}: ${data.lastName}`,
+    `${labels.gender}: ${gender}`,
+    `${labels.birthDate}: ${data.birthDate}`,
+    `${labels.nationality}: ${data.nationality || '—'}`,
+    `${labels.address}: ${data.address}`,
+    `${labels.postalCode}: ${data.postalCode}`,
+    `${labels.city}: ${data.city}`,
+    `${labels.phone}: ${data.phone}`,
+    `${labels.email}: ${data.email}`,
+    `${labels.guardianName}: ${data.guardianName || '—'}`,
+    `${labels.guardianEmail}: ${data.guardianEmail || '—'}`,
+    '',
+    `${labels.membership}: ${data.membershipAgreement ? yes : no}`,
+    `${labels.privacy}: ${data.privacyAcknowledged ? yes : no}`,
+    `${labels.guardianConsent}: ${guardianConsent}`,
+    `${labels.photoConsent}: ${data.photoConsent ? yes : no}`,
+    `${labels.privacyVersion}: ${data.privacyVersion}`,
+    `${labels.termsVersion}: ${data.membershipTermsVersion}`,
+    '',
+    labels.invoice,
+    english ? 'Full application data is also attached as inschrijving.json.' : 'De volledige aanvraaggegevens staan ook in de bijlage inschrijving.json.'
+  ].join('\n');
   try {
     const client = new EmailClient(connection);
     const poller = await client.beginSend({ senderAddress:sender, recipients:{to:[{address:recipient}]},
-      content:{subject:`Nieuwe TTV Maastricht inschrijving - ${registration.registrationId}`,
-        plainText:`Nieuwe lidmaatschapsaanvraag ontvangen.\n\nNaam: ${data.firstName} ${data.lastName}\nE-mail: ${data.email}\nAanvraag en contributievoorwaarden bevestigd: ${data.membershipAgreement ? 'ja' : 'nee'}\n\nDe aanmelding verwacht een handmatige factuur. De volledige gegevens staan in de JSON-bijlage.`},
+      content:{subject:`${english ? 'New TTV Maastricht membership application' : 'Nieuwe TTV Maastricht lidmaatschapsaanvraag'} - ${registration.registrationId}`,
+        plainText:body},
       attachments:[{name:'inschrijving.json',contentType:'application/json',contentInBase64:attachment}]
     });
     const result = await poller.pollUntilDone();
