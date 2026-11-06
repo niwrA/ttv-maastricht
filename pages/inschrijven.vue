@@ -1,0 +1,1 @@
+<template><RegistrationForm/></template>

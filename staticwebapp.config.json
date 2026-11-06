@@ -1,0 +1,1 @@
+{"navigationFallback":{"rewrite":"/index.html","exclude":["/api/*","/*.{css,ico,js,png,jpg,svg,webp}"]},"platform":{"apiRuntime":"node:20"}}

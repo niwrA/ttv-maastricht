@@ -1,0 +1,17 @@
+{
+  "name": "ttv-maastricht-v1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "generate": "nuxt generate && node scripts/copy-staticwebapp-config.mjs",
+    "preview": "nuxt preview"
+  },
+  "dependencies": {
+    "nuxt": "^3.17.5",
+    "zod": "^3.25.49",
+    "@azure/communication-email": "^1.0.0"
+  },
+  "devDependencies": {}
+}
