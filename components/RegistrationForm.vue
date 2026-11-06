@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const {en,t,path}=useSiteLocale()
 useSeoMeta({title:computed(()=>t('Inschrijven | TTV Maastricht','Register | TTV Maastricht'))})
-const form=reactive({firstName:'',initials:'',lastName:'',email:'',phone:'',birthDate:'',nationality:'',address:'',postalCode:'',city:'',gender:'',guardianName:'',guardianEmail:'',guardianConsent:false,membershipAgreement:false,privacyAcknowledged:false,newsletterConsent:false,photoConsent:false,website:''})
+const form=reactive({firstName:'',initials:'',lastName:'',email:'',phone:'',birthDate:'',nationality:'',address:'',postalCode:'',city:'',gender:'',guardianName:'',guardianEmail:'',guardianConsent:false,membershipAgreement:false,privacyAcknowledged:false,photoConsent:false,website:''})
 const state=ref('idle')
 const errorMessage=ref('')
 const minor=computed(()=>{
@@ -67,7 +67,6 @@ async function submit(){
           <label class="check"><input v-model="form.membershipAgreement" type="checkbox" required><span>{{t('Ik dien hiermee mijn aanvraag voor lidmaatschap in en bevestig dat ik kennis heb genomen van de contributie, het verenigingsjaar en de opzegtermijn hierboven. *','I am applying for membership and confirm that I have read the membership fees, club year and cancellation notice above. *')}}</span></label>
           <label class="check"><input v-model="form.privacyAcknowledged" type="checkbox" required><span>{{t('Ik heb de privacyverklaring gelezen. *','I have read the privacy policy. *')}}</span></label>
           <label v-if="minor" class="check"><input v-model="form.guardianConsent" type="checkbox" required><span>{{t('Ik ben de ouder/voogd en geef toestemming voor deze lidmaatschapsaanvraag. *','I am the parent/guardian and consent to this membership application. *')}}</span></label>
-          <label class="check"><input v-model="form.newsletterConsent" type="checkbox"><span>{{t('Ik wil optioneel nieuwsbrieven ontvangen.','I optionally agree to receive newsletters.')}}</span></label>
           <label class="check"><input v-model="form.photoConsent" type="checkbox"><span>{{t('Ik geef optioneel toestemming voor publicatie van herkenbaar beeldmateriaal.','I optionally consent to publication of identifiable photos or videos.')}}</span></label>
         </div>
         <div class="honey" aria-hidden="true"><label>Website<input v-model="form.website" tabindex="-1" autocomplete="off"></label></div>

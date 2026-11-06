@@ -5,6 +5,9 @@ useHead({htmlAttrs:{lang:computed(()=>en.value?'en':'nl')}})
 const languagePath=computed(()=>({
   '/':'/en','/en':'/',
   '/nieuws/open-dag-jeugd-2026':'/en/news/youth-open-day-2026','/en/news/youth-open-day-2026':'/nieuws/open-dag-jeugd-2026',
+  '/nieuws/zaalrenovatie-2026':'/en/news/hall-renovation-2026','/en/news/hall-renovation-2026':'/nieuws/zaalrenovatie-2026',
+  '/nieuws/folder-ttv-maastricht':'/en/news/ttv-maastricht-brochure','/en/news/ttv-maastricht-brochure':'/nieuws/folder-ttv-maastricht',
+  '/nieuws/ttv-maastricht-in-de-limburger':'/en/news/ttv-maastricht-in-de-limburger','/en/news/ttv-maastricht-in-de-limburger':'/nieuws/ttv-maastricht-in-de-limburger',
   '/training':'/en/training','/en/training':'/training',
   '/over-de-club':'/en/about','/en/about':'/over-de-club',
   '/proefspelen':'/en/try-it','/en/try-it':'/proefspelen',
