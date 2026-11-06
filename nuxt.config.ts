@@ -10,9 +10,9 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       routes: [
-        '/', '/inschrijven', '/privacy', '/training', '/over-de-club', '/proefspelen', '/nieuws/open-dag-jeugd-2026',
+        '/', '/inschrijven', '/privacy', '/training', '/over-de-club', '/bestuur', '/proefspelen', '/nieuws/open-dag-jeugd-2026',
         '/nieuws/zaalrenovatie-2026', '/nieuws/folder-ttv-maastricht', '/nieuws/ttv-maastricht-in-de-limburger',
-        '/en', '/en/register', '/en/privacy', '/en/training', '/en/about', '/en/try-it', '/en/news/youth-open-day-2026',
+        '/en', '/en/register', '/en/privacy', '/en/training', '/en/about', '/en/board', '/en/try-it', '/en/news/youth-open-day-2026',
         '/en/news/hall-renovation-2026', '/en/news/ttv-maastricht-brochure', '/en/news/ttv-maastricht-in-de-limburger'
       ]
     }

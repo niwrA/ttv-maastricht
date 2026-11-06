@@ -135,3 +135,12 @@ input:focus,textarea:focus,select:focus{outline-color:#829d64}
 @media(max-width:600px){.brand{width:122px}.brand img{max-height:62px}.footer-logo{width:148px}.foot{grid-template-columns:1fr;gap:24px}.share-panel{padding:19px}.share-panel-site{padding:0}.share-actions a,.share-actions button{min-height:36px;padding:8px 11px}}
 .check{align-items:flex-start}
 .check input{margin:2px 0 0}
+.board-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:28px 0 14px}
+.board-extra{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.board-card{min-width:0;padding:22px;background:#f5f7f0;border-top:3px solid #829d64}
+.board-card>span{display:block;margin-bottom:10px;color:#64756a;font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+.board-card h2{margin:0 0 8px;font-size:22px}
+.board-card a,.board-contact a{color:#245b4b;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+.board-contact{margin-top:25px;color:#53675d;font-size:14px;line-height:1.7}
+@media(max-width:700px){.board-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.board-extra{grid-template-columns:1fr}}
+@media(max-width:480px){.board-grid{grid-template-columns:1fr}.board-card{padding:19px}}

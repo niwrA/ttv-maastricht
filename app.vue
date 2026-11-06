@@ -14,6 +14,7 @@ const languagePath=computed(()=>(
     '/nieuws/ttv-maastricht-in-de-limburger':'/en/news/ttv-maastricht-in-de-limburger','/en/news/ttv-maastricht-in-de-limburger':'/nieuws/ttv-maastricht-in-de-limburger',
     '/training':'/en/training','/en/training':'/training',
     '/over-de-club':'/en/about','/en/about':'/over-de-club',
+    '/bestuur':'/en/board','/en/board':'/bestuur',
     '/proefspelen':'/en/try-it','/en/try-it':'/proefspelen',
     '/inschrijven':'/en/register','/en/register':'/inschrijven',
     '/privacy':'/en/privacy','/en/privacy':'/privacy'
@@ -42,7 +43,7 @@ const languagePath=computed(()=>(
       <div class="shell foot">
         <div><img class="footer-logo" src="/images/ttv-maastricht-logo.svg" alt="TTV Maastricht"><p>{{t('Een plek voor sport, plezier en ontmoeting.','A place for sport, fun and connection.')}}</p></div>
         <div><span>Contact</span><a href="mailto:secretaristtvmaastricht@outlook.com">secretaristtvmaastricht@outlook.com</a></div>
-        <div><span>{{t('Ontdek','Explore')}}</span><NuxtLink :to="path('register')">{{t('Lid worden','Join us')}}</NuxtLink><NuxtLink :to="path('privacy')">{{t('Privacyverklaring','Privacy policy')}}</NuxtLink></div>
+        <div><span>{{t('Ontdek','Explore')}}</span><NuxtLink :to="path('register')">{{t('Lid worden','Join us')}}</NuxtLink><NuxtLink :to="path('board')">{{t('Bestuursleden','Board members')}}</NuxtLink><NuxtLink :to="path('privacy')">{{t('Privacyverklaring','Privacy policy')}}</NuxtLink></div>
         <ShareLinks />
       </div>
       <div class="shell foot-bottom">© {{new Date().getFullYear()}} TTV Maastricht · Concept</div>

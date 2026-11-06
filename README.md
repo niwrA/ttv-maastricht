@@ -3,28 +3,25 @@
 Nuxt 3 static website with Dutch and English routes, club information, registration form and privacy statement based on supplied 2026–2027 DOCX documents.
 
 ## Run
-`npm install` then `npm run dev`. Build static output: `npm run generate` -> `.output/public`. Deploy Azure Static Web Apps with `app_location: /`, `output_location: .output/public`, `api_location: api`.
+`npm install` then `npm run dev`. Build static output: `npm run generate` -> `.output/public`. Deploy Azure Static Web Apps with `app_location: /` and `output_location: .output/public`.
 
 ## Routes
 - `/`, `/inschrijven`, `/privacy`
 - `/en`, `/en/register`, `/en/privacy`
 
-## Backend
-The Azure Function at `api/src/functions/register.js` sends a JSON attachment to the secretary using Azure Communication Services Email. Configure `ACS_CONNECTION_STRING`, `ACS_SENDER`, `REGISTRATION_RECIPIENT` in Azure application settings. The email is NOT operational until these settings and the email sender domain are configured. Do not place credentials in Nuxt public config.
-
-For local end-to-end development, install the API dependencies once with `npm install --prefix api`, copy `api/local.settings.json.example` to `api/local.settings.json`, and add valid Azure Communication Services values. Then run `npm run dev:swa` and open `http://localhost:4280`. The Static Web Apps CLI proxies the Nuxt dev server and the local Azure Functions API, so `/api/register` behaves like it does after deployment. `api/local.settings.json` is ignored by Git; never commit its secrets.
+## Membership application email
+The form opens a new email draft addressed to the secretary. It puts the application in the message body as a clearly labeled, plain-text list of fields, which is easy to review, copy into a spreadsheet, or process with an AI assistant. The site does not send or store the application. The applicant must review the draft and click Send; if no email app opens, the page shows the details for manual copying. Set up a default email handler on the device before relying on the mail link.
 
 ## Privacy / production checklist
 - Review legal wording in both policies with the board/privacy adviser; source documents contain claims about cookies and retention that may not match the new website or current law.
 - Review the optional gender/nationality fields for data minimisation; the original paper forms include them.
-- Confirm parental authorization workflow (checkbox alone does not prove identity), email retention and mailbox access; email attachments contain personal data.
-- Add robust anti-abuse measures (CAPTCHA/Turnstile or equivalent and throttling) before public launch; honeypot alone is insufficient.
+- Confirm parental authorization workflow (checkbox alone does not prove identity), email retention and mailbox access; application emails contain personal data.
 - Confirm Friday evening schedule: listed only in English source document; not published in this concept.
 - Consider separate privacy notice for online registration and email processing, and version/time stamp retention.
-- Review and test delivery failures, accessibility, translated content, and static deployment.
+- Verify the email-app handoff on desktop and mobile, plus accessibility, translated content, and static deployment.
 
 ## Copilot
-See `.github/copilot-instructions.md`. Example: `Update both Dutch and English membership fee descriptions for the new season, without changing privacy policy or registration API; create a PR and show the diff.`
+See `.github/copilot-instructions.md`. Example: `Update both Dutch and English membership fee descriptions for the new season, without changing the privacy policy; create a PR and show the diff.`
 
 
 ## V3 visuele update (november 2026)

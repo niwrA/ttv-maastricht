@@ -4,15 +4,11 @@
   "type": "module",
   "scripts": {
     "dev": "nuxt dev",
-    "dev:swa": "npx @azure/static-web-apps-cli start http://localhost:3000 --api-location ./api --run \"npm run dev\"",
     "build": "nuxt build",
     "generate": "nuxt generate && node scripts/copy-staticwebapp-config.mjs",
     "preview": "nuxt preview"
   },
   "dependencies": {
-    "nuxt": "^3.17.5",
-    "zod": "^3.25.49",
-    "@azure/communication-email": "^1.0.0"
-  },
-  "devDependencies": {}
+    "nuxt": "^3.17.5"
+  }
 }

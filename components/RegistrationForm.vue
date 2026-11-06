@@ -1,9 +1,11 @@
 <script setup lang="ts">
 const {en,t,path}=useSiteLocale()
 useSeoMeta({title:computed(()=>t('Inschrijven | TTV Maastricht','Register | TTV Maastricht'))})
-const form=reactive({firstName:'',initials:'',lastName:'',email:'',phone:'',birthDate:'',nationality:'',address:'',postalCode:'',city:'',gender:'',guardianName:'',guardianEmail:'',guardianConsent:false,membershipAgreement:false,privacyAcknowledged:false,photoConsent:false,website:''})
+const form=reactive({firstName:'',initials:'',lastName:'',email:'',phone:'',birthDate:'',nationality:'',address:'',postalCode:'',city:'',gender:'',guardianName:'',guardianEmail:'',guardianConsent:false,membershipAgreement:false,privacyAcknowledged:false,photoConsent:false})
 const state=ref('idle')
 const errorMessage=ref('')
+const emailBody=ref('')
+const recipient='secretaristtvmaastricht@outlook.com'
 const minor=computed(()=>{
   if(!form.birthDate)return false
   const d=new Date(form.birthDate),today=new Date()
@@ -11,15 +13,74 @@ const minor=computed(()=>{
   if(today.getMonth()<d.getMonth()||(today.getMonth()===d.getMonth()&&today.getDate()<d.getDate()))age--
   return age<18
 })
-async function submit(){
-  state.value='sending';errorMessage.value=''
-  try{
-    await $fetch('/api/register',{method:'POST',body:{...form,locale:en.value?'en':'nl',privacyVersion:'2026-2027',membershipTermsVersion:'2026-2027'}})
-    state.value='success'
-  }catch(e:any){
-    state.value='error'
-    errorMessage.value=e?.data?.message||t('Versturen mislukt. Probeer later opnieuw.','Submission failed. Please try again later.')
-  }
+function submit(){
+  errorMessage.value=''
+  const details=form
+  const yes=en.value?'Yes':'Ja'
+  const no=en.value?'No':'Nee'
+  const notProvided=en.value?'Not provided':'Niet opgegeven'
+  const gender=en.value?({male:'Male',female:'Female',other:'Other'}[details.gender]||notProvided):({male:'Man',female:'Vrouw',other:'Anders'}[details.gender]||notProvided)
+  const lines=en.value?[
+    'TTV Maastricht membership application',
+    'I would like to apply for membership of TTV Maastricht. My details are:',
+    `Received: ${new Date().toLocaleString('en-GB')}`,
+    '',
+    'APPLICANT',
+    `Preferred name: ${details.firstName}`,
+    `Initials: ${details.initials||notProvided}`,
+    `Family name: ${details.lastName}`,
+    `Gender: ${gender}`,
+    `Date of birth: ${details.birthDate}`,
+    `Nationality: ${details.nationality||notProvided}`,
+    `Address: ${details.address}`,
+    `Postal code: ${details.postalCode}`,
+    `City: ${details.city}`,
+    `Phone: ${details.phone}`,
+    `Email: ${details.email}`,
+    ...(minor.value?['','PARENT OR GUARDIAN',`Name: ${details.guardianName}`,`Email: ${details.guardianEmail}`]:[]),
+    '',
+    'CONFIRMATIONS',
+    `Membership information read: ${details.membershipAgreement?yes:no}`,
+    `Privacy policy read: ${details.privacyAcknowledged?yes:no}`,
+    `Parent/guardian consent: ${minor.value?(details.guardianConsent?yes:no):'Not applicable'}`,
+    `Photo publication consent: ${details.photoConsent?yes:no}`,
+    'Privacy policy version: 2026-2027',
+    'Membership terms version: 2026-2027',
+  ]:[
+    'Lidmaatschapsaanvraag TTV Maastricht',
+    'Hierbij geef ik mij op als lid van TTV Maastricht. Mijn gegevens zijn:',
+    `Ontvangen op: ${new Date().toLocaleString('nl-NL')}`,
+    '',
+    'AANVRAGER',
+    `Roepnaam: ${details.firstName}`,
+    `Voorletters: ${details.initials||notProvided}`,
+    `Achternaam: ${details.lastName}`,
+    `Geslacht: ${gender}`,
+    `Geboortedatum: ${details.birthDate}`,
+    `Nationaliteit: ${details.nationality||notProvided}`,
+    `Adres: ${details.address}`,
+    `Postcode: ${details.postalCode}`,
+    `Woonplaats: ${details.city}`,
+    `Telefoon: ${details.phone}`,
+    `E-mailadres: ${details.email}`,
+    ...(minor.value?['','OUDER OF VOOGD',`Naam: ${details.guardianName}`,`E-mailadres: ${details.guardianEmail}`]:[]),
+    '',
+    'BEVESTIGINGEN',
+    `Lidmaatschapsinformatie gelezen: ${details.membershipAgreement?yes:no}`,
+    `Privacyverklaring gelezen: ${details.privacyAcknowledged?yes:no}`,
+    `Toestemming ouder/voogd: ${minor.value?(details.guardianConsent?yes:no):'Niet van toepassing'}`,
+    `Toestemming publicatie beeldmateriaal: ${details.photoConsent?yes:no}`,
+    'Versie privacyverklaring: 2026-2027',
+    'Versie lidmaatschapsvoorwaarden: 2026-2027',
+  ]
+  emailBody.value=lines.join('\n')
+  const subject=`${en.value?'Membership application':'Lidmaatschapsaanvraag'} TTV Maastricht - ${details.lastName}, ${details.firstName}`
+  state.value='draft'
+  window.location.href=`mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody.value)}`
+}
+async function copyDetails(){
+  try{await navigator.clipboard.writeText(emailBody.value);errorMessage.value=''}
+  catch{errorMessage.value=t('Kopieren is niet gelukt. Selecteer en kopieer het overzicht hieronder handmatig.','Copying failed. Select and copy the details below manually.')}
 }
 </script>
 
@@ -37,9 +98,12 @@ async function submit(){
       </div>
     </div>
     <div class="form-card">
-      <div v-if="state==='success'" class="success">
-        <h2>{{t('Bedankt voor je aanmelding!','Thank you for your application!')}}</h2>
-        <p>{{t('De secretaris controleert je gegevens en stuurt de contributiefactuur handmatig per e-mail. Je betaalt nu nog niets.','The secretary will review your details and send the membership invoice manually by email. No payment is due now.')}}</p>
+      <div v-if="state==='draft'" class="success">
+        <h2>{{t('Je e-mailconcept staat klaar','Your email draft is ready')}}</h2>
+        <p>{{t('Controleer de gegevens in je e-mailprogramma en klik op Versturen. De aanvraag is pas ontvangen nadat je de e-mail hebt verstuurd. De secretaris controleert je gegevens en stuurt de contributiefactuur handmatig.','Review the details in your email app and click Send. Your application is received only after you send the email. The secretary will review your details and send the membership invoice manually.')}}</p>
+        <button type="button" class="btn btn-dark" @click="copyDetails">{{t('Kopieer aanvraaggegevens','Copy application details')}}</button>
+        <p v-if="errorMessage" class="error" role="alert">{{errorMessage}}</p>
+        <details class="registration-json"><summary>{{t('Toon overzicht om handmatig te kopieren','Show details to copy manually')}}</summary><pre style="white-space:pre-wrap;overflow-wrap:anywhere">{{emailBody}}</pre></details>
         <NuxtLink :to="path('home')" class="btn btn-dark">{{t('Terug naar de homepage','Back to homepage')}}</NuxtLink>
       </div>
       <form v-else @submit.prevent="submit">
@@ -69,10 +133,8 @@ async function submit(){
           <label v-if="minor" class="check"><input v-model="form.guardianConsent" type="checkbox" required><span>{{t('Ik ben de ouder/voogd en geef toestemming voor deze lidmaatschapsaanvraag. *','I am the parent/guardian and consent to this membership application. *')}}</span></label>
           <label class="check"><input v-model="form.photoConsent" type="checkbox"><span>{{t('Ik geef optioneel toestemming voor publicatie van herkenbaar beeldmateriaal.','I optionally consent to publication of identifiable photos or videos.')}}</span></label>
         </div>
-        <div class="honey" aria-hidden="true"><label>Website<input v-model="form.website" tabindex="-1" autocomplete="off"></label></div>
-        <p v-if="state==='error'" class="error" role="alert">{{errorMessage}}</p>
-        <button class="btn btn-dark submit" :disabled="state==='sending'">{{state==='sending'?t('Verzenden…','Sending…'):t('Verstuur lidmaatschapsaanvraag','Submit membership application')}} ↗</button>
-        <p class="small-print">{{t('Concept: e-mailservice en beveiliging moeten vóór publicatie worden ingesteld.','Draft: email delivery and security must be configured before publishing.')}}</p>
+        <button class="btn btn-dark submit">{{t('Open e-mail om aanvraag te versturen','Open email to send application')}} ↗</button>
+        <p class="small-print">{{t('Je e-mailprogramma wordt geopend met een overzicht van de aanvraaggegevens. De site verstuurt of bewaart je gegevens niet.','Your email app opens with an overview of the application details. The site does not send or store your details.')}}</p>
       </form>
     </div>
   </div></main>
