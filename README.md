@@ -10,7 +10,7 @@ Nuxt 3 static website with Dutch and English routes, club information, registrat
 - `/en`, `/en/register`, `/en/privacy`
 
 ## Membership application email
-The form opens a new email draft addressed to the secretary. It puts the application in the message body as a clearly labeled, plain-text list of fields, which is easy to review, copy into a spreadsheet, or process with an AI assistant. The site does not send or store the application. The applicant must review the draft and click Send; if no email app opens, the page shows the details for manual copying. Set up a default email handler on the device before relying on the mail link.
+The form opens a new email draft addressed to the secretary. It puts the application in the message body as a clearly labeled, plain-text list of fields, which is easy to review, copy into a spreadsheet, or process with an AI assistant. The applicant can also print or save a copy as a PDF from the browser. The site does not send or store the application. The applicant must review the draft and click Send; if no email app opens, the page shows the details for manual copying. Set up a default email handler on the device before relying on the mail link.
 
 ## Privacy / production checklist
 - Review legal wording in both policies with the board/privacy adviser; source documents contain claims about cookies and retention that may not match the new website or current law.

@@ -144,3 +144,12 @@ input:focus,textarea:focus,select:focus{outline-color:#829d64}
 .board-contact{margin-top:25px;color:#53675d;font-size:14px;line-height:1.7}
 @media(max-width:700px){.board-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.board-extra{grid-template-columns:1fr}}
 @media(max-width:480px){.board-grid{grid-template-columns:1fr}.board-card{padding:19px}}
+
+.print-sheet{display:none}
+@media print{
+  body *{visibility:hidden!important}
+  .print-sheet,.print-sheet *{visibility:visible!important}
+  .print-sheet{display:block!important;position:absolute;left:0;top:0;width:100%;padding:15mm;background:white;color:#111}
+  .print-sheet h1{font:700 22pt Arial,sans-serif;letter-spacing:0;margin:0 0 14mm}
+  .print-sheet pre{white-space:pre-wrap;overflow-wrap:anywhere;font:10pt/1.5 Arial,sans-serif}
+}

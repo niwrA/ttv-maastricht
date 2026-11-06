@@ -40,7 +40,7 @@ function submit(){
     ...(minor.value?['','PARENT OR GUARDIAN',`Name: ${details.guardianName}`,`Email: ${details.guardianEmail}`]:[]),
     '',
     'CONFIRMATIONS',
-    `Membership information read: ${details.membershipAgreement?yes:no}`,
+    `Applicant confirms details, membership information read, and requests membership: ${details.membershipAgreement?yes:no}`,
     `Privacy policy read: ${details.privacyAcknowledged?yes:no}`,
     `Parent/guardian consent: ${minor.value?(details.guardianConsent?yes:no):'Not applicable'}`,
     `Photo publication consent: ${details.photoConsent?yes:no}`,
@@ -66,7 +66,7 @@ function submit(){
     ...(minor.value?['','OUDER OF VOOGD',`Naam: ${details.guardianName}`,`E-mailadres: ${details.guardianEmail}`]:[]),
     '',
     'BEVESTIGINGEN',
-    `Lidmaatschapsinformatie gelezen: ${details.membershipAgreement?yes:no}`,
+    `Aanvrager bevestigt gegevens, lidmaatschapsinformatie gelezen en vraagt lidmaatschap aan: ${details.membershipAgreement?yes:no}`,
     `Privacyverklaring gelezen: ${details.privacyAcknowledged?yes:no}`,
     `Toestemming ouder/voogd: ${minor.value?(details.guardianConsent?yes:no):'Niet van toepassing'}`,
     `Toestemming publicatie beeldmateriaal: ${details.photoConsent?yes:no}`,
@@ -82,6 +82,7 @@ async function copyDetails(){
   try{await navigator.clipboard.writeText(emailBody.value);errorMessage.value=''}
   catch{errorMessage.value=t('Kopieren is niet gelukt. Selecteer en kopieer het overzicht hieronder handmatig.','Copying failed. Select and copy the details below manually.')}
 }
+function printApplication(){window.print()}
 </script>
 
 <template>
@@ -102,6 +103,7 @@ async function copyDetails(){
         <h2>{{t('Je e-mailconcept staat klaar','Your email draft is ready')}}</h2>
         <p>{{t('Controleer de gegevens in je e-mailprogramma en klik op Versturen. De aanvraag is pas ontvangen nadat je de e-mail hebt verstuurd. De secretaris controleert je gegevens en stuurt de contributiefactuur handmatig.','Review the details in your email app and click Send. Your application is received only after you send the email. The secretary will review your details and send the membership invoice manually.')}}</p>
         <button type="button" class="btn btn-dark" @click="copyDetails">{{t('Kopieer aanvraaggegevens','Copy application details')}}</button>
+        <button type="button" class="btn btn-dark" @click="printApplication">{{t('Afdrukken / opslaan als PDF','Print / save as PDF')}}</button>
         <p v-if="errorMessage" class="error" role="alert">{{errorMessage}}</p>
         <details class="registration-json"><summary>{{t('Toon overzicht om handmatig te kopieren','Show details to copy manually')}}</summary><pre style="white-space:pre-wrap;overflow-wrap:anywhere">{{emailBody}}</pre></details>
         <NuxtLink :to="path('home')" class="btn btn-dark">{{t('Terug naar de homepage','Back to homepage')}}</NuxtLink>
@@ -128,7 +130,7 @@ async function copyDetails(){
         </div>
         <div class="consents">
           <p><NuxtLink :to="path('privacy')" target="_blank" rel="noopener">{{t('Lees de volledige privacyverklaring (opent in nieuw tabblad)','Read the full privacy policy (opens in a new tab)')}} ↗</NuxtLink></p>
-          <label class="check"><input v-model="form.membershipAgreement" type="checkbox" required><span>{{t('Ik bevestig dat ik de lidmaatschapsinformatie hierboven heb gelezen en wil lid worden. *','I confirm that I have read the membership information above and wish to join. *')}}</span></label>
+          <label class="check"><input v-model="form.membershipAgreement" type="checkbox" required><span>{{minor?t('Als ouder/voogd bevestig ik dat de gegevens juist zijn, dat ik de lidmaatschapsinformatie hierboven heb gelezen en dat ik het lidmaatschap aanvraag voor het minderjarige lid. *','As the parent/guardian, I confirm the details are correct, have read the membership information above and apply on behalf of the minor. *'):t('Ik verklaar dat de ingevulde gegevens juist zijn, heb de lidmaatschapsinformatie hierboven gelezen en wil lid worden. *','I confirm that the information provided is correct, have read the membership information above and wish to join. *')}}</span></label>
           <label class="check"><input v-model="form.privacyAcknowledged" type="checkbox" required><span>{{t('Ik heb de privacyverklaring gelezen. *','I have read the privacy policy. *')}}</span></label>
           <label v-if="minor" class="check"><input v-model="form.guardianConsent" type="checkbox" required><span>{{t('Ik ben de ouder/voogd en geef toestemming voor deze lidmaatschapsaanvraag. *','I am the parent/guardian and consent to this membership application. *')}}</span></label>
           <label class="check"><input v-model="form.photoConsent" type="checkbox"><span>{{t('Ik geef optioneel toestemming voor publicatie van herkenbaar beeldmateriaal.','I optionally consent to publication of identifiable photos or videos.')}}</span></label>
@@ -137,5 +139,9 @@ async function copyDetails(){
         <p class="small-print">{{t('Je e-mailprogramma wordt geopend met een overzicht van de aanvraaggegevens. De site verstuurt of bewaart je gegevens niet.','Your email app opens with an overview of the application details. The site does not send or store your details.')}}</p>
       </form>
     </div>
+    <section class="print-sheet">
+      <h1>{{t('Lidmaatschapsaanvraag TTV Maastricht','TTV Maastricht membership application')}}</h1>
+      <pre>{{emailBody}}</pre>
+    </section>
   </div></main>
 </template>
