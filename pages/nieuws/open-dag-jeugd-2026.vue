@@ -9,7 +9,7 @@ const photos=[
 ]
 </script>
 <template><main class="article-page"><article class="shell article-shell">
-  <NuxtLink to="/#clubnieuws" class="article-back">â† Terug naar het clubnieuws</NuxtLink>
+  <NuxtLink to="/#clubnieuws" class="article-back">← Terug naar het clubnieuws</NuxtLink>
   <header class="article-header"><div class="kicker">/ JEUGD Â· 25 OKTOBER 2026</div><h1>Geslaagde open dag voor de jeugd</h1><p class="article-lead">Een gezellige middag om kennis te maken met tafeltennis, nieuwe mensen te ontmoeten en samen plezier te maken.</p></header>
   <figure class="article-cover"><img src="/images/nieuws/open-dag-jeugd-2026/20261025_140609.jpg" alt="Deelnemers verzamelen bij de start van de open dag" fetchpriority="high"><figcaption>De deelnemers komen samen bij de start van de middag.</figcaption></figure>
   <div class="article-body">
@@ -19,5 +19,5 @@ const photos=[
     <p>Bedankt aan alle deelnemers en iedereen die heeft meegeholpen om er zoâ€™n gezellige middag van te maken. We kijken terug op een geslaagde middag en hopen jullie snel weer te zien op onze vereniging!</p>
   </div>
   <section class="article-gallery" aria-labelledby="article-gallery-title"><div class="kicker">/ EEN KIJKJE IN DE MIDDAG</div><h2 id="article-gallery-title">Open dag in beeld<span class="accent-dot">.</span></h2><div class="article-gallery-grid"><figure v-for="photo in photos" :key="photo.src"><img :src="photo.src" :alt="photo.alt" loading="lazy"><figcaption>{{photo.alt}}</figcaption></figure></div></section>
-  <ShareLinks :article="true" /><div class="article-end"><NuxtLink to="/proefspelen" class="btn btn-lime">Ook eens proberen? <span aria-hidden="true">â†—</span></NuxtLink><NuxtLink to="/#clubnieuws" class="article-back">â† Terug naar het clubnieuws</NuxtLink></div>
+  <ShareLinks :article="true" /><div class="article-end"><NuxtLink to="/proefspelen" class="btn btn-lime">Ook eens proberen? <span aria-hidden="true">↗</span></NuxtLink><NuxtLink to="/#clubnieuws" class="article-back">← Terug naar het clubnieuws</NuxtLink></div>
 </article></main></template>

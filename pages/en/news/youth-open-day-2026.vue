@@ -9,7 +9,7 @@ const photos=[
 ]
 </script>
 <template><main class="article-page"><article class="shell article-shell">
-  <NuxtLink to="/en#clubnews" class="article-back">â† Back to club news</NuxtLink>
+  <NuxtLink to="/en#clubnews" class="article-back">← Back to club news</NuxtLink>
   <header class="article-header"><div class="kicker">/ YOUTH Â· 25 OCTOBER 2026</div><h1>A fun open day for young players</h1><p class="article-lead">A friendly afternoon to discover table tennis, meet new people and have fun together.</p></header>
   <figure class="article-cover"><img src="/images/nieuws/open-dag-jeugd-2026/20261025_140609.jpg" alt="Participants gathering at the start of the open day" fetchpriority="high"><figcaption>Participants gathering at the start of the afternoon.</figcaption></figure>
   <div class="article-body">
@@ -19,5 +19,5 @@ const photos=[
     <p>Thank you to all the participants and everyone who helped make it such a lovely afternoon. We look back on a successful event and hope to see you again at our club soon!</p>
   </div>
   <section class="article-gallery" aria-labelledby="article-gallery-title"><div class="kicker">/ A LOOK AT THE AFTERNOON</div><h2>Open day in pictures<span class="accent-dot">.</span></h2><div class="article-gallery-grid"><figure v-for="photo in photos" :key="photo.src"><img :src="photo.src" :alt="photo.alt" loading="lazy"><figcaption>{{photo.alt}}</figcaption></figure></div></section>
-  <ShareLinks :article="true" /><div class="article-end"><NuxtLink to="/en/try-it" class="btn btn-lime">Want to try it? <span aria-hidden="true">â†—</span></NuxtLink><NuxtLink to="/en#clubnews" class="article-back">â† Back to club news</NuxtLink></div>
+  <ShareLinks :article="true" /><div class="article-end"><NuxtLink to="/en/try-it" class="btn btn-lime">Want to try it? <span aria-hidden="true">↗</span></NuxtLink><NuxtLink to="/en#clubnews" class="article-back">← Back to club news</NuxtLink></div>
 </article></main></template>
